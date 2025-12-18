@@ -19,8 +19,16 @@ import neo4j, { Driver } from 'neo4j-driver';
                 return driver;
             },
             inject: [ConfigService]
+        },
+        {
+            provide: "NEO4J_DATABASE",
+            useFactory: async (configServis: ConfigService): Promise<String> => {
+                const database = configServis.getOrThrow<string>("NEO4J_DATABASE");
+                return database;
+            },
+            inject: [ConfigService]
         }
     ],
-    exports: ["NEO4J_DRIVER"]
+    exports: ["NEO4J_DRIVER", "NEO4J_DATABASE"]
 })
 export class DbModule { }
